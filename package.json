@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/JarRySW/ll-promise/issues"
   },
-  "homepage": "https://github.com/JarRySW/ll-promise#readme"
+  "homepage": "https://github.com/JarRySW/ll-promise#readme",
+  "devDependencies": {
+    "mocha": "^5.1.1"
+  }
 }
