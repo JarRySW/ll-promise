@@ -1,24 +1,14 @@
-function Promise (fn) {
-    val promise = this,
-        value = null,
-        promise._resolves = []
-        promise._status = 'PENDING'
+module.exports = function Promise (fn) {
+    var value = null,
+        deferreds = []
 
     this.then = function (onFulfilled) {
-        if (promise._status === 'PENDING') {
-            promise._resolves.push(onFulfilled)
-            return this
-        }
-        onFulfilled(value)
-        return this
+        deferreds.push(onFulfilled)
     }
 
     function resolve (value) {
-        setTimeout(function () {
-            promise._status = 'FULFILLED'
-            promise._resolves.forEach(function (cb) {
-                cb(value)
-            })
+        deferreds.forEach(function (deferred) {
+            deferred(value)
         })
     }
 
