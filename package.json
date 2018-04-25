@@ -1,0 +1,22 @@
+{
+  "name": "ll-promise",
+  "version": "1.0.0",
+  "description": "promise",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JarRySW/ll-promise.git"
+  },
+  "keywords": [
+    "promise"
+  ],
+  "author": "llwcy8801",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JarRySW/ll-promise/issues"
+  },
+  "homepage": "https://github.com/JarRySW/ll-promise#readme"
+}
