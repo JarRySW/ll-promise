@@ -3,11 +3,13 @@ module.exports = function Promise (fn) {
         state = 'pending',
         deferreds = []
 
-    this.then = function (onFulfilled) {
-        return new Promise(function (resolve) {
+    this.then = function (onFulfilled, onRejected) {
+        return new Promise(function (resolve, reject) {
             handle({
                 onFulfilled: onFulfilled || null,
-                resolve: resolve
+                onRejected: onRejected || null,
+                resolve: resolve,
+                reject: reject
             })
         })
     }
@@ -17,27 +19,49 @@ module.exports = function Promise (fn) {
             deferreds.push(deferred)
             return
         }
-        var ret = deferred.onFulfilled(value)
-        deferred.resolve(ret)
+
+        var cb = state === 'fulfilled' ? deferred.onFulfilled : deferred.onRejected,
+            ret;
+        if (cb === null) {
+            cb = state === 'fulfilled' ? deferred.resolve : deferred.reject
+            cb(value)
+            return
+        }
+        try {
+            ret = cb(value)
+            deferred.resolve(ret)
+        } catch (e) {
+            deferred.reject(e)
+        }
     }
 
     function resolve (newValue) {
         if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
             var then = newValue.then
             if (typeof then === 'function') {
-                then.call(newValue, resolve)
+                then.call(newValue, resolve, reject)
                 return
             }
         }
         value = newValue
         state = 'fulfilled'
+        finale()
+    }
+
+    function reject (reason) {
+        state = 'rejected'
+        value = reason
+        finale()
+    }
+
+    function finale () {
         setTimeout(function () {
             deferreds.forEach(function (deferred) {
-                handle(value)
+                handle(deferred)
             })
         }, 0)
     }
 
-    fn(resolve)
+    fn(resolve, reject)
 }
 
