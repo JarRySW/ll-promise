@@ -1,14 +1,14 @@
-var llPromise = require('../index.js')
+var llPromise = require('../src/promise1')
 
 function getUserId () {
     return new llPromise(function (resolve) {
         setTimeout(function () {
-            console.log('第一步')
-            resolve('第一步')
-        }, 5000)
+            resolve('用户数据')
+        }, 2000)
     })
 }
 
-getUserId().then(function (id) {
+getUserId().then(function (msg) {
     // do something
+    console.log(msg)
 })
