@@ -5,6 +5,7 @@ module.exports = function (fn) {
 
     this.then = function (onFulilled) {
         deferreds.push(onFulilled)
+        return this
     }
 
     function resolve(value) {

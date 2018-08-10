@@ -1,9 +1,10 @@
+// demo1.js
 var llPromise = require('../src/promise1')
 
 function getUserId () {
     return new llPromise(function (resolve) {
         setTimeout(function () {
-            resolve('用户数据')
+            resolve('id:0')
         }, 2000)
     })
 }
