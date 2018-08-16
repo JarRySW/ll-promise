@@ -5,6 +5,7 @@ module.exports = function Promise(fn) {
         deferreds = [];
 
     this.then = function (onFulfilled, onRejected) {
+        console.log('then promise')
         return new Promise(function (resolve, reject) {
             handle({
                 onFulfilled: onFulfilled || null,
